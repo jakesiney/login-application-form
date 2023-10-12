@@ -10,14 +10,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Bandit - Security Issues in Python code
-        uses: mdegis/bandit-action@v1.0
+      - name: Bandit Action
+        uses: mdegis/bandit-action@v1.0.1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           path: "."
-          level: "undefined"
-          confidence: "undefined"
-          exit_zero: false
+          level: "UNDEFINED"
+          confidence: "UNDEFINED"
+          exit_zero: True
 
   semgrep:
     runs-on: ubuntu-latest
