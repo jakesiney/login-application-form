@@ -1,9 +1,8 @@
 name: SAST
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    branches: [ main ]
 
 jobs:
   bandit:
@@ -16,6 +15,7 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           path: "."
+          level: "high"
           exit_zero: true
 
   semgrep:
