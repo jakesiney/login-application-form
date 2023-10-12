@@ -1,15 +1,14 @@
 import os
 from flask import Flask
-from dotenv import load_dotenv
 
-load_dotenv()
+db_pw = os.environ.get('DB_PW')
 
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        SECRET_KEY=(os.environ['DB_PW']),
+        SECRET_KEY=db_pw,
         DATABASE=os.path.join(app.instance_path, 'login_form.sqlite'),
     )
 
