@@ -15,8 +15,8 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           path: "."
-          level: "high"
-          confidence: "high"
+          level: "undefined"
+          confidence: "undefined"
           exit_zero: false
 
   semgrep:
