@@ -16,7 +16,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           path: "."
           level: "high"
-          exit_zero: true
+          confidence: "high"
+          exit_zero: false
 
   semgrep:
     runs-on: ubuntu-latest
