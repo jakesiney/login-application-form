@@ -1,18 +1,22 @@
 import functools
 
+
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, flash, g, redirect, render_template, request, session, url_for, add_security_headers
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from login_form.db import get_db
 from login_form.user import User
 
+
 bp = Blueprint('auth', __name__, url_prefix='/')
+
 
 @bp.route('/')
 def index():
     return render_template('index.html')
+
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
@@ -33,11 +37,13 @@ def register():
 
     return render_template('register.html')
 
+
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        csrf_token = HiddenField(Validators=[DataRequired()])
 
         error = None
         user = User.find_with_credentials(username, password)
@@ -54,6 +60,7 @@ def login():
 
     return render_template('login.html')
 
+
 @bp.before_app_request
 def load_logged_in_user():
     user_id = session.get('user_id')
@@ -63,10 +70,12 @@ def load_logged_in_user():
     else:
         g.user = User.find_by_id(user_id)
 
+
 @bp.route('/logout')
 def logout():
     session.clear()
     return redirect(url_for('auth.index'))
+
 
 def login_required(view):
     @functools.wraps(view)

@@ -1,14 +1,19 @@
 import os
 from flask import Flask
+from flask_wtf.csrf import CSRFProtect
+from dotenv import load_dotenv
 
-db_pw = os.environ.get('DB_PW')
+load_dotenv()
+key = os.environ.get('KEY')
+csrf = CSRFProtect()
 
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+    csrf.init_app(app)
     app.config.from_mapping(
-        SECRET_KEY=db_pw,
+        SECRET_KEY=os.environ.get('KEY'),
         DATABASE=os.path.join(app.instance_path, 'login_form.sqlite'),
     )
 
@@ -38,7 +43,7 @@ def create_app(test_config=None):
 
     @app.after_request
     def add_security_headers(resp):
-        resp.headers['Content-Security-Policy'] = 'default-src \'self\''
+        resp.headers['Content-Security-Policy'] = "default-src 'self'"
         return resp
 
     return app
