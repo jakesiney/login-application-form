@@ -24,6 +24,7 @@ def register():
         username = request.form['username']
         password = request.form['password']
         hashed_password = generate_password_hash(password)
+        csrf_token = HiddenField(Validators=[DataRequired()])
         error = None
 
         if not username:
@@ -43,7 +44,7 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        # csrf_token = HiddenField(Validators=[DataRequired()])
+        csrf_token = HiddenField(Validators=[DataRequired()])
 
         error = None
         user = User.find_with_credentials(username, password)

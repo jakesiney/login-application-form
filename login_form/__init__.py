@@ -45,8 +45,9 @@ def create_app(test_config=None):
 
     @app.after_request
     def add_security_headers(resp):
-        csp = "default-src 'self'; frame-ancestors 'self'; form-action 'self'"
-        resp.headers['Content-Security-Policy'] = csp
+        # csp = "default-src 'self'; frame-ancestors 'self'; form-action 'self'"
+        resp.headers['Content-Security-Policy'] = 'default-src \'self\'; script-src \'self\'; style-src \'self\'; frame-ancestors \'self\'; form-action \'self\''
+        # resp.headers['Content-Security-Policy'] = csp
         resp.headers['X-Content-Type-Options'] = 'nosniff'
         return resp
 
