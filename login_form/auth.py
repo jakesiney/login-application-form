@@ -23,14 +23,14 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-
+        hashed_password = generate_password_hash(password)
         error = None
 
         if not username:
             error = 'Username is required.'
 
         if error is None:
-            User.create(username, password)
+            User.create(username, hashed_password)
             return redirect(url_for('auth.login'))
 
         flash(error)
@@ -43,12 +43,12 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        csrf_token = HiddenField(Validators=[DataRequired()])
+        # csrf_token = HiddenField(Validators=[DataRequired()])
 
         error = None
         user = User.find_with_credentials(username, password)
 
-        if user is None:
+        if user is None or not check_password_hash(user.password, password):
             error = 'Incorrect username or password.'
 
         if error is None:
